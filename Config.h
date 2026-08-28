@@ -5,12 +5,13 @@
 //! @date   26.08.2026
 //---------------------------------------------------------------------------------------
 
+#include <TXLib.h>
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
-#include <TXLib.h>
 #include <windows.h>
 #include <string.h>
+#include <stdlib.h>
 
 //---------------------------------------------------------------------------------------
 //! @brief ÷ена за одну попытку решени€ уравнени€
@@ -63,7 +64,7 @@ struct Coeffs {
 //! @brief —труктура дл€ хранени€ корней уравнени€ и их количества (x1, x2, Number of roots)
 //---------------------------------------------------------------------------------------
 struct Roots {
-    double  Root1;
-    double  Root2;
-    int     Number_Of_Roots;
+    double Root1;
+    double Root2;
+    int    Number_Of_Roots;
 };

@@ -26,7 +26,7 @@ void Solve_Quad_Equation(const struct Coeffs *Coeffs_Eq_Addr, struct Roots *Root
     else
     {
         double Discriminant = Coeffs_Eq_Addr->Coeff_b * Coeffs_Eq_Addr->Coeff_b -
-                               4 * Coeffs_Eq_Addr->Coeff_a * Coeffs_Eq_Addr->Coeff_c;
+                              4 * Coeffs_Eq_Addr->Coeff_a * Coeffs_Eq_Addr->Coeff_c;
 
         if (Double_Comparison_With_Zero(Discriminant))
         {

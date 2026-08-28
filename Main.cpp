@@ -21,8 +21,10 @@
 //! @note    Программа использует токены, как валюту для имитации ИИ
 //! @warning Для работы с файлом требуется файл "Coefficients.txt" в директории программы
 //---------------------------------------------------------------------------------------
-int main()
+int main(/*int argc, char *argv[]*/)
 {
+    //Print_Picture("Angry_Face.txt");
+
     Greeting_Output();
 
     Checking_Tests_Words();
@@ -39,13 +41,10 @@ int main()
     if (Mode == Mode_Console)
         File = stdin;
 
-    else if (Mode == Mode_File && File_Open(&File))
-    {
-        printf(RED "ERROR, не удалось открыть файл\n" RESET);
+    else if (Mode == Mode_File && File_Open(&File, "Coefficients.txt"))
         return Error_File_Open;
-    }
 
-    bool End_Of_File = false;
+    bool End_Of_File_Or_End_Tokens = false;
 
     while (Check_Tokens(Mode))
     {
@@ -54,7 +53,7 @@ int main()
 
         if (!Input_Coefficients(&Coeffs_Eq, File))
         {
-            End_Of_File = true;
+            End_Of_File_Or_End_Tokens = true;
             break;
         }
 
@@ -62,8 +61,10 @@ int main()
 
         Display_Roots(&Roots_Eq);
     }
+    if (End_Of_File_Or_End_Tokens)
+        Check_Tokens(Mode);
 
-    if (End_Of_File && (Mode == Mode_File))
+    if (End_Of_File_Or_End_Tokens && (Mode == Mode_File))
         printf(BLUE "Достигнут конец файла. Все коеффициенты прочитаны.\n\n" RESET);
 
     if (Mode == Mode_File && File_Close(File))

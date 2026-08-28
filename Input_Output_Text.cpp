@@ -20,13 +20,13 @@ void Greeting_Output(void)
            GREEN "Описание:           " YELLOW " Программа решает квадратное уравнение "
                  "с использованием передовых AI-технологий\n\n" RESET);
 
-    Sleep(80 * DELAY_SLEEP);
+    Sleep(80 * DELAY_SLEEP_PHRASE);
     Smooth_Phrase_Output("Искусственный интеллект загружается...\n");
-    Sleep(20 * DELAY_SLEEP);
+    Sleep(20 * DELAY_SLEEP_PHRASE);
     Smooth_Phrase_Output("Синхронизация с облачным сознанием...\n");
-    Sleep(50 * DELAY_SLEEP);
+    Sleep(50 * DELAY_SLEEP_PHRASE);
     Smooth_Phrase_Output("Активация модели \"КВАДРАТНЫЙ РЕШАТЕЛЬ 3000\"...\n");
-    Sleep(10 * DELAY_SLEEP);
+    Sleep(10 * DELAY_SLEEP_PHRASE);
     Smooth_Phrase_Output("Модель успешно активировалась и готова к работе!\n\n");
 
     printf(BLUE "Привет! Я твой ИИ-помощник, созданный для решения квадратных уравнений.\n"
@@ -68,29 +68,29 @@ bool Input_Coefficients(struct Coeffs *Coeffs_Eq_Addr, FILE *File)
 
     do {
         Number_Of_Correct_Coefficients = fscanf(File, "%lg %lg %lg",
-                                               &(Coeffs_Eq_Addr->Coeff_a),
-                                               &(Coeffs_Eq_Addr->Coeff_b),
-                                               &(Coeffs_Eq_Addr->Coeff_c));
-
+                                                &(Coeffs_Eq_Addr->Coeff_a),
+                                                &(Coeffs_Eq_Addr->Coeff_b),
+                                                &(Coeffs_Eq_Addr->Coeff_c));
+          // sscanf("1 2 3", "%d %d %d",
         if (Number_Of_Correct_Coefficients == EOF)
             return false;
 
-        bool Flag = false;
+        bool Flag_Incorrect_Input = false;
         if (File == stdin)
         {
-            int Extra_Simbol = Clean_Buff_Count_Extra_Simbol();
+            int Extra_Simbol = Clean_Buff_Count_Extra_Simbol();//sYmbol
 
             if (Number_Of_Correct_Coefficients != CORRECT_NUMBER_OF_COEFFICIENTS)
-                Flag = true;
+                Flag_Incorrect_Input = true;
 
             else if (Extra_Simbol)
             {
-                Flag = true;
+                Flag_Incorrect_Input = true;
                 Number_Of_Correct_Coefficients = INCORRECT_NUMBER_OF_COEFFICIENTS;
             }
         }
 
-        if (!Analysis_Koeffs(Flag, Coeffs_Eq_Addr))
+        if (!Analysis_Koeffs(Flag_Incorrect_Input, Coeffs_Eq_Addr))
             return false;
 
     } while (Number_Of_Correct_Coefficients != CORRECT_NUMBER_OF_COEFFICIENTS);
@@ -129,7 +129,7 @@ void Display_Roots(const struct Roots *Roots_Eq_Addr)
         case Roots_2:       printf (BLUE "Выявлено два корня: x1 = %lg, x2 = %lg.\n",
                                     Roots_Eq_Addr->Root1, Roots_Eq_Addr->Root2);
                             printf("Сейчас еще раз все перепроверю.\n" RESET);
-                            Sleep(7 * DELAY_SLEEP);
+                            Sleep(7 * DELAY_SLEEP_PHRASE);
                             printf(BLUE "Да, все верно! Я провел проверку на десяти "
                                    "уровнях моего сознания. Все корректно.\n\n" RESET);
                             break;
@@ -167,9 +167,9 @@ bool Check_Tokens(int Mode)
     else if (Tokens__Do_Not_Use_Unnecessarily >= COST_SERVICE && Mode == Mode_File)
     {
         Smooth_Phrase_Output("Читаются коэффициенты, подождите...\n");
-        Sleep(DELAY_SLEEP);
+        Sleep(DELAY_SLEEP_PHRASE);
         Smooth_Phrase_Output("Thinking...\n\n");
-        Sleep(10 * DELAY_SLEEP);
+        Sleep(10 * DELAY_SLEEP_PHRASE);
         return true;
     }
 
@@ -189,53 +189,47 @@ bool Check_Tokens(int Mode)
 
 //---------------------------------------------------------------------------------------
 //! @brief     Анализирует корректность введенных коэффициентов
-//! @param[in] Flag Флаг ошибки ввода (true если ввод некорректен)
+//! @param[in] Flag_Incorrect_Input Флаг ошибки ввода (true если ввод некорректен)
 //! @param[in] Coeffs_Eq_Addr Указатель на структуру с коеффициентами
 //! @return    True, если ввод успешен, и False, в противном случае
 //! @note      Списывает COST_SERVICE токенов при каждой попытке ввода
 //---------------------------------------------------------------------------------------
-bool Analysis_Koeffs(bool Flag, const struct Coeffs *Coeffs_Eq_Addr)
+bool Analysis_Koeffs(bool Flag_Incorrect_Input, const struct Coeffs *Coeffs_Eq_Addr)
 {
     if (Tokens__Do_Not_Use_Unnecessarily >= COST_SERVICE)
     {
-        if (Flag)
+        if (Flag_Incorrect_Input)
         {
             Smooth_Phrase_Output("Провожу глубокий анализ введенных данных...\n\n");
-            Sleep(20 * DELAY_SLEEP);
+            Sleep(20 * DELAY_SLEEP_PHRASE);
             printf(BLUE "Уупс, что-то пошло не так, пожалуйста, введите коэффициенты заново!\n"
                         "Неправильный ввод коэффициентов стоит %d токенов.\n", COST_SERVICE);
             printf("Пожалуйста, введите числа как цивилизованный человек.\n\n"
-                        "Количество токенов на вашем счету: %d.\n\n" RESET,
-                        Tokens__Do_Not_Use_Unnecessarily - COST_SERVICE);
+                   "Количество токенов на вашем счету: %d.\n\n" RESET,
+                   Tokens__Do_Not_Use_Unnecessarily - COST_SERVICE);
         }
 
         else
         {
             Smooth_Phrase_Output("Подождите, идет обработка...\n");
-            Sleep(5 * DELAY_SLEEP);
+            Sleep(5 * DELAY_SLEEP_PHRASE);
             Smooth_Phrase_Output("Запускаю алгоритм обратного распространения потоков данных...\n\n");
-            Sleep(3 * DELAY_SLEEP);
+            Sleep(3 * DELAY_SLEEP_PHRASE);
             printf(BLUE "Коэффициенты: a = %lg, b = %lg, c = %lg.\n",
                    Coeffs_Eq_Addr->Coeff_a, Coeffs_Eq_Addr->Coeff_b, Coeffs_Eq_Addr->Coeff_c);
             printf("Данные получены, обработка успешно завершена!\n\n" RESET);
         }
 
+        Tokens__Do_Not_Use_Unnecessarily -= COST_SERVICE;
 
-        if (Tokens__Do_Not_Use_Unnecessarily < COST_SERVICE)
-        {
-            Tokens__Do_Not_Use_Unnecessarily -= COST_SERVICE;
+        if ((Tokens__Do_Not_Use_Unnecessarily < COST_SERVICE) && Flag_Incorrect_Input)
             return false;
-        }
         else
-        {
-            Tokens__Do_Not_Use_Unnecessarily -= COST_SERVICE;
             return true;
-        }
     }
 
     else
         return false;
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -268,22 +262,22 @@ Mode_Condition Use_Mode(int *Mode)
 void Goodbye_Words()
 {
     printf(BLUE "Спасибо, что обратились к ИИ \"КВАДРАТНЫЙ РЕШАТЕЛЬ 3000\".\n");
-    Sleep(DELAY_SLEEP);
+    Sleep(DELAY_SLEEP_PHRASE);
     printf("Не забывайте, я здесь, чтобы помогать вам с математикой.\n");
-    Sleep(DELAY_SLEEP);
+    Sleep(DELAY_SLEEP_PHRASE);
     printf("Если вам надо будет еще с чем-то помочь, например, решить "
            "кубическое уравнение, не стесняйтесь, смело обращайтесь "
            "ко мне, я привлеку к решению задачи все свои машинные извилины :).\n");
-    Sleep(DELAY_SLEEP);
+    Sleep(DELAY_SLEEP_PHRASE);
     printf("До новых вычислительных встреч!\n" RESET);
 
     return;
 }
 
 //---------------------------------------------------------------------------------------
-//! @brief    Выводит на экран фразу по букве (выплывание как в ИИ)
-//! @param[i] Str[] Массив символов char (строка)
-//! @note     Использутся для "Thinking..."
+//! @brief     Выводит на экран фразу по букве (выплывание как в ИИ)
+//! @param[in] Str[] Массив символов char (строка)
+//! @note      Используется для "Thinking..."
 //---------------------------------------------------------------------------------------
 void Smooth_Phrase_Output(const char Str[])
 {
@@ -291,8 +285,27 @@ void Smooth_Phrase_Output(const char Str[])
     for (int i = 0; i < Lenght; i++)
     {
         printf("%c", Str[i]);
-        Sleep(DELAY_SLEEP / 5);
+        Sleep(DELAY_SLEEP_SYMBOL);
     }
 
     return;
+}
+
+//---------------------------------------------------------------------------------------
+//! @brief     Выводит на экран все содержимое файла
+//! @param[in] File_Name Строка названия файла
+//! @return    True, если файл успешно открылся, и False, в противном случае
+//! @note      Используется для распечатывания "картинки"
+//---------------------------------------------------------------------------------------
+bool Print_Picture(const char *File_Name)
+{
+    FILE *File = NULL;
+    if (File_Open(&File, File_Name))
+        return false;
+
+    int Symbol;
+    while ((Symbol = fgetc(File)) != EOF)
+        putchar(Symbol);
+
+    return true;
 }
